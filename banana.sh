@@ -1,5 +1,7 @@
 #!/bin/bash 
 
+set -eu
+
 num=$1
 minlength=1
 
