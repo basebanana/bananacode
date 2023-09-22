@@ -1,27 +1,31 @@
-#!/bin/bash 
+#!/bin/sh
 
 set -eu
 
-num=$1
-minlength=1
-
-
-alphabets=(bcdfglmnprstvz aeiou)
-numalpha=${#alphabets[@]}
-v=$num
-st=
+num="$1"
+minlength=2
+vowels='aeiou'
+consonantics='bcdfglmnprstvz'
+v="$num"
 length=0
+st=
 
-idx=$(((numalpha - 1) % numalpha))
-while ! { [ "$v" -eq 0 ] && [ $idx -eq $(((numalpha - 1) % numalpha)) ] && [ $length -ge $minlength ] ; }
+idx=1
+while [ "$v" -ne 0 ] || [ $idx -ne 1 ] || [ $length -lt $minlength ]
 do
-            al=${alphabets[idx]}
-            r=$((v % ${#al}))
-            v=$((v / ${#al}))
-            st="${al:$r:1}$st"
+    if [ "${idx}" -eq 1 ]; then
+        al="$vowels"
+        idx=0
+    else
+        al="$consonantics"
+        idx=1
+    fi
+    len="${#al}"
+    r=$((v % len + 1))
+    v=$((v / len))
+    st="$(echo "$al" | cut -c "$r")$st"
 
-            idx=$(((idx + numalpha - 1) % numalpha))
-            length=$((length + 1))
+    length=$((length + 1))
 done
 
 echo "$st"
