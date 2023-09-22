@@ -10,16 +10,16 @@ v=$num
 st=
 length=0
 
-idx=$((($numalpha - 1) % $numalpha))
-while !( [ $v -eq 0 ] && [ $idx -eq $((($numalpha - 1) % $numalpha)) ] && [ $length -ge $minlength ] )
+idx=$(((numalpha - 1) % numalpha))
+while ! { [ "$v" -eq 0 ] && [ $idx -eq $(((numalpha - 1) % numalpha)) ] && [ $length -ge $minlength ] ; }
 do
             al=${alphabets[idx]}
-            r=$(($v % ${#al}))
-            v=$(($v / ${#al}))
+            r=$((v % ${#al}))
+            v=$((v / ${#al}))
             st="${al:$r:1}$st"
 
-            idx=$((($idx + $numalpha - 1) % $numalpha))
-            length=$(($length + 1))
+            idx=$(((idx + numalpha - 1) % numalpha))
+            length=$((length + 1))
 done
 
-echo $st
+echo "$st"
